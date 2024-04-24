@@ -1,4 +1,4 @@
-# project-9
+# TheThreeGame
 
 Write a class called TheThreeGame that allows two players to play a game in which they alternately choose numbers from 1-9.  They may not choose a number that has already been selected by either player.  If at any point exactly three of a player's numbers sum to exactly 15, then that player has won.  If all numbers from 1-9 are chosen, but neither player has won, then the game ends in a draw. Player "first_player" has the first turn.
 
