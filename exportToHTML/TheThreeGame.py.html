@@ -1,0 +1,142 @@
+<html>
+<head>
+<title>TheThreeGame.py</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #808080;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #cc7832;}
+.s3 { color: #629755; font-style: italic;}
+.s4 { color: #6897bb;}
+.s5 { color: #6a8759;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+TheThreeGame.py</font>
+</center></td></tr></table>
+<pre><span class="s0"># Author: Heather Bullard</span>
+<span class="s0"># Date Began: 12/2/2021</span>
+<span class="s0"># Description: TheThreeGame that allows two players to play a game in which they alternately choose numbers from 1-9.</span>
+<span class="s0"># They may not choose a number that has already been selected by either player. If at any point exactly three of a</span>
+<span class="s0"># player's numbers sum to exactly 15, then that player has won. If all numbers from 1-9 are chosen, but neither player</span>
+<span class="s0"># has won, then the game ends in a draw. Player &quot;first_player&quot; has the first turn.</span>
+
+<span class="s2">class </span><span class="s1">TheThreeGame:</span>
+    <span class="s3">&quot;&quot;&quot; 
+    Two players alternating choose numbers 1 to 9, a number can not be chosen twice 
+    If 3 of the players numbers sum to exactly 15, then the player wins 
+    If all numbers 1 to 9 are chosen and neither has won, then the game is a draw. 
+    Player first_player goes first 
+    &quot;&quot;&quot;</span>
+
+    <span class="s2">def </span><span class="s1">__init__(self):</span>
+        <span class="s3">&quot;&quot;&quot; 
+        The constructor for TheThreeGame class. 
+        Initializes the private data members. 
+        first_nums and second_nums keeps a set of each players chosen numbers 
+        the current state holds one of four values 
+        Player keeps track of whose turn it is 
+        Takes no parameters. 
+                &quot;&quot;&quot;</span>
+        <span class="s1">self._turn = </span><span class="s4">0                      </span><span class="s0"># keeps track of which players turn</span>
+        <span class="s1">self._total_chosen = [</span><span class="s5">&quot;-&quot;</span><span class="s2">, </span><span class="s5">&quot;n&quot;</span><span class="s2">, </span><span class="s5">&quot;n&quot;</span><span class="s2">, </span><span class="s5">&quot;n&quot;</span><span class="s2">, </span><span class="s5">&quot;n&quot;</span><span class="s2">, </span><span class="s5">&quot;n&quot;</span><span class="s2">, </span><span class="s5">&quot;n&quot;</span><span class="s2">, </span><span class="s5">&quot;n&quot;</span><span class="s2">, </span><span class="s5">&quot;n&quot;</span><span class="s2">, </span><span class="s5">&quot;n&quot;</span><span class="s1">]       </span><span class="s0"># keeps the numbers that are chosen by everyone 1-9</span>
+        <span class="s1">self._current_state = </span><span class="s5">&quot;GAME UNFINISHED&quot;</span>
+        <span class="s1">self._newNum = </span><span class="s4">0</span>
+
+    <span class="s2">def </span><span class="s1">validate(self):</span>
+        <span class="s3">&quot;&quot;&quot; 
+        Validates the number has not been previously chosen, the has not been won or drawn, 
+        Makes sure the number is within the valid range 
+        :return False: 
+        &quot;&quot;&quot;</span>
+        <span class="s2">if </span><span class="s1">self._total_chosen[self._newNum] != </span><span class="s5">&quot;n&quot; </span><span class="s2">and </span><span class="s4">1 </span><span class="s1">&gt; self._newNum &gt; </span><span class="s4">9</span><span class="s1">:</span>
+            <span class="s2">return </span><span class="s1">print(</span><span class="s5">&quot;wrong number&quot;</span><span class="s1">) </span><span class="s2">and False</span>
+        <span class="s2">if </span><span class="s1">self._current_state == </span><span class="s5">&quot;FIRST_PLAYER_WON&quot; </span><span class="s2">or </span><span class="s1">self._current_state == </span><span class="s5">&quot;SECOND_PLAYER_WON&quot; </span><span class="s2">or </span><span class="s1">self._current_state == </span><span class="s5">&quot;IT_IS_A_DRAW&quot;</span><span class="s1">:</span>
+            <span class="s2">return </span><span class="s1">print(self._current_state) </span><span class="s2">and False</span>
+
+    <span class="s2">def </span><span class="s1">check_sum(self):</span>
+        <span class="s3">&quot;&quot;&quot; 
+        Checks if there are three numbers chosen by the same player, which 
+        Equal 15 , if so updates current state 
+        :return: 
+        &quot;&quot;&quot;</span>
+        <span class="s1">player1</span><span class="s2">, </span><span class="s1">player2 = </span><span class="s5">&quot;f&quot;</span><span class="s2">, </span><span class="s5">&quot;s&quot;</span>
+        <span class="s1">difference = </span><span class="s4">15 </span><span class="s1">- self._newNum</span>
+        <span class="s1">half1</span><span class="s2">, </span><span class="s1">half2 = (difference // </span><span class="s4">2</span><span class="s1">) + </span><span class="s4">1</span><span class="s2">, </span><span class="s1">(difference // </span><span class="s4">2</span><span class="s1">) - </span><span class="s4">1</span>
+        <span class="s2">if </span><span class="s1">difference % </span><span class="s4">2 </span><span class="s1">== </span><span class="s4">1</span><span class="s1">:</span>
+            <span class="s1">half2 += </span><span class="s4">1</span>
+        <span class="s2">if </span><span class="s1">self._total_chosen[self._newNum] == player1 </span><span class="s2">and </span><span class="s1">self._total_chosen[half1] == player1 </span><span class="s2">and </span><span class="s1">self._total_chosen[half2] == player1:</span>
+            <span class="s1">self._current_state = </span><span class="s5">&quot;FIRST_PLAYER_WON&quot;</span>
+
+        <span class="s2">elif </span><span class="s1">self._total_chosen[self._newNum] == player2 </span><span class="s2">and </span><span class="s1">self._total_chosen[half1] == player2 </span><span class="s2">and </span><span class="s1">self._total_chosen[half2] == player2:</span>
+            <span class="s1">self._current_state = </span><span class="s5">&quot;SECOND_PLAYER_WON&quot;</span>
+
+    <span class="s2">def </span><span class="s1">get_winner(self):                       </span><span class="s0"># returns the current value of the winner</span>
+        <span class="s3">&quot;&quot;&quot; 
+        When a player reaches the sum of 15 with 3 distinct number turns, a winner is declared. 
+        The method will return which player won the game. 
+        For instance, FIRST_PLAYER_WON, SECOND_PLAYER_WON, or None 
+        &quot;&quot;&quot;</span>
+        <span class="s2">if </span><span class="s1">self._current_state == </span><span class="s5">&quot;FIRST_PLAYER_WON&quot;</span><span class="s1">:</span>
+            <span class="s2">return </span><span class="s1">self._current_state</span>
+        <span class="s2">elif </span><span class="s1">self._current_state == </span><span class="s5">&quot;SECOND_PLAYER_WON&quot;</span><span class="s1">:</span>
+            <span class="s2">return </span><span class="s1">self._current_state</span>
+        <span class="s2">else</span><span class="s1">:</span>
+            <span class="s2">return None</span>
+
+
+    <span class="s2">def </span><span class="s1">is_it_a_draw(self):</span>
+        <span class="s3">&quot;&quot;&quot; 
+        Two players will exhaust all the available numbers and a draw is called, 'IT_IS_A_DRAW' 
+        If not a draw, it will return 'GAME_UNFINISHED' If a player has won and is_it_a_draw 
+        is called, then it should return &quot;FIRST_PLAYER_WON&quot; or &quot;SECOND_PLAYER_WON&quot; accordingly. 
+        &quot;&quot;&quot;</span>
+        <span class="s1">TheThreeGame.validate(self)</span>
+        <span class="s2">if </span><span class="s1">self._turn == </span><span class="s4">9</span><span class="s1">:</span>
+            <span class="s2">if </span><span class="s1">self.get_winner() </span><span class="s2">is None</span><span class="s1">:</span>
+                <span class="s1">self._current_state = </span><span class="s5">&quot;IT_IS_A_DRAW&quot;</span>
+                <span class="s2">return </span><span class="s1">self._current_state</span>
+            <span class="s2">if </span><span class="s1">self.get_winner() == </span><span class="s5">&quot;FIRST_PLAYER_WON&quot; </span><span class="s2">or </span><span class="s1">self.get_winner() == </span><span class="s5">&quot;SECOND_PLAYER_WON&quot;</span><span class="s1">:</span>
+                <span class="s2">return </span><span class="s1">self.get_winner()</span>
+        <span class="s2">else</span><span class="s1">:</span>
+            <span class="s1">self._current_state = </span><span class="s5">&quot;GAME_UNFINISHED&quot;</span>
+            <span class="s2">return </span><span class="s1">self._current_state</span>
+
+    <span class="s2">def </span><span class="s1">make_move(self</span><span class="s2">, </span><span class="s1">active_player</span><span class="s2">, </span><span class="s1">chosen_number):</span>
+        <span class="s3">&quot;&quot;&quot; 
+        Each player takes a turn choosing numbers 1 to 9. Each number can not be chosen previously. 
+        Player: a string designating the player making the move, either &quot;first_player&quot; or &quot;second_player&quot;, 
+        and an integer giving their number choice (in that order) 
+        Chosen_number: The parameter chosen_number will be the input each player chooses to continue the game. 
+        Return False: Only valid number are allowed, if it is not that player's turn, or if the integer is not 
+        in the correct range, or if that integer has already been chosen, or if the game has already been won or drawn. 
+        &quot;&quot;&quot;</span>
+        <span class="s2">if </span><span class="s1">self._turn % </span><span class="s4">2 </span><span class="s1">== </span><span class="s4">0 </span><span class="s2">and </span><span class="s1">active_player == </span><span class="s5">&quot;second_player&quot;</span><span class="s1">:</span>
+            <span class="s2">return </span><span class="s1">print(</span><span class="s5">&quot;wrong player&quot;</span><span class="s1">) </span><span class="s2">and False</span>
+        <span class="s1">self._newNum = chosen_number</span>
+        <span class="s1">TheThreeGame.validate(self)</span>
+        <span class="s1">self._total_chosen[self._newNum] = active_player[</span><span class="s4">0</span><span class="s1">]</span>
+        <span class="s1">TheThreeGame.check_sum(self)</span>
+
+        <span class="s2">if </span><span class="s1">self._current_state == </span><span class="s5">&quot;FIRST_PLAYER_WON&quot; </span><span class="s2">or </span><span class="s1">self._current_state == </span><span class="s5">&quot;SECOND_PLAYER_WON&quot;</span><span class="s1">:</span>
+            <span class="s2">return </span><span class="s1">print(</span><span class="s5">&quot;game over&quot;</span><span class="s1">) </span><span class="s2">and </span><span class="s1">self._current_state </span><span class="s2">and False</span>
+        <span class="s1">self._turn += </span><span class="s4">1</span>
+        <span class="s2">if </span><span class="s1">self._turn == </span><span class="s4">10</span><span class="s1">:</span>
+            <span class="s1">self._current_state = </span><span class="s5">&quot;IT_IS_A_DRAW&quot;</span>
+            <span class="s2">return </span><span class="s1">self._current_state</span>
+        <span class="s2">return </span><span class="s1">print(</span><span class="s5">&quot;Successful Turn, Next Player&quot;</span><span class="s1">) </span><span class="s2">and True</span>
+
+
+<span class="s1">game = TheThreeGame()</span>
+
+<span class="s1">game.make_move(</span><span class="s5">&quot;first_player&quot;</span><span class="s2">, </span><span class="s4">6</span><span class="s1">)</span>
+<span class="s1">game.make_move(</span><span class="s5">&quot;second_player&quot;</span><span class="s2">, </span><span class="s4">5</span><span class="s1">)</span>
+<span class="s1">result = game.make_move(</span><span class="s5">&quot;first_player&quot;</span><span class="s2">, </span><span class="s4">7</span><span class="s1">)</span>
+<span class="s1">player_won = game.get_winner()</span>
+<span class="s1">draw = game.is_it_a_draw()</span>
+</pre>
+</body>
+</html>
